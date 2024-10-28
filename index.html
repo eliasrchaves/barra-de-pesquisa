@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=[device-width], initial-scale=1.0">
+    <title>input de pesquisa</title>
+    
+    <style>
+        *{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+ background-color: hsl(0, 0%, 97%);   
+}
+.search{
+    display: flex;
+    align-items:center;
+    
+    border:  1px  solid #ccc;
+    background-color: #00000006;
+    width: 400px;
+    margin: 20px  auto;
+    border-radius: 20px;
+    padding: 5px 10px;
+    color: #4b4b4b
+}
+#searchInput{
+    padding: 8px;
+    border: none;
+    background-color: transparent;
+    width: 100%;
+    outline: none;
+   display: flex;
+  justify-content: center;
+  
+   
+}
+.search label
+{height: 20px;
+}
+.card-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+}
+.card {
+    width: 300px;
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px 20px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 0 8px rgba(0, 0 ,0     , 0.250)
+    
+}
+#cityselect {
+  border: none;
+font-size: 15px;}
+
+
+    </style>
+    
+</head>
+<body>
+    <div class="search">
+        <label for="searchInput"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+          </svg><span class="material-simbols-outlined"> </span></label>
+          <input type="text" placeholder="pesquisar" id="searchInput">
+          <select name="txtselect" id="citySelect">
+            
+
+          </select>
+        </div>
+    <div class="card-container"> 
+        
+</div>
+<script>
+    let data = [
+    { title: "Pedreiro em contagem", description: "O pedreiro é o profissional responsável por construir e reparar estruturas como paredes, pisos e lajes, utilizando materiais como tijolos, blocos e concreto.</br></br> <strong>Nome:</strong> antonio silva </br> Tel:(xx) x xxxx-xxxx </br> Site: www.profii.com.br", city: "Contagem", link: "https://profii.com.br/" },
+    { title: "Eletricista em contagem", description: "Um eletricista é um profissional especializado em instalar, manter e reparar sistemas elétricos em residências, empresas e indústrias, garantindo o funcionamento seguro e eficiente da energia elétrica.</br></br> <strong>Nome:</strong> antonio silva </br> Tel:(xx) x xxxx-xxxx </br> Site: www.profii.com.br", city: "Contagem", link: "https://profii.com.br/" },
+    { title: "Gesseiro em Belo horizonte", description: "Um gesseiro é um profissional especializado em trabalhar com gesso em obras e reformas. Ele aplica gesso em paredes e tetos, cria rebaixamentos, molduras e sancas, além de instalar sistemas de drywall.</br></br> <strong>Nome:</strong> antonio silva </br> Tel:(xx) x xxxx-xxxx </br> Site: www.profii.com.br", city: "Belo horizonte", link: "https://profii.com.br/" },
+    { title: "Pintor em Belo horizonte", description: "Um pintor é um profissional responsável por preparar superfícies e aplicar tintas e revestimentos em paredes, tetos, fachadas e outras estruturas, com o objetivo de proteger, decorar e embelezá-las.</br></br> <strong>Nome:</strong> antonio silva </br> Tel:(xx) x xxxx-xxxx </br> Site: www.profii.com.br", city: "Belo horizonte", link: "https://profii.com.br/" },
+    { title: "Marceneiro em Betim", description: "Um marceneiro é um artesão da madeira, responsável por criar e transformar peças de madeira em móveis, estruturas e objetos decorativos. Ele utiliza diversas ferramentas e técnicas para cortar, moldar, lixar e unir as peças de madeira, dando vida a projetos personalizados.</br></br> <strong>Nome:</strong> antonio silva </br> Tel:(xx) x xxxx-xxxx </br> Site: www.profii.com.br", city: " Betim", link: "https://profii.com.br/" },
+    { title: "Marido de aluguel em Betim", description: "é um profissional versátil que realiza diversos tipos de reparos e manutenções em residências, como consertos hidráulicos, instalações elétricas, pequenos reparos em alvenaria e carpintaria.</br></br> <strong>Nome:</strong> antonio silva </br> Tel:(xx) x xxxx-xxxx </br> Site: www.profii.com.br", city: " Betim", link: "https://profii.com.br/" },
+    
+   
+     // Link para o instalador elétrico
+    // ... outros objetos com cidade e link
+
+]   ;
+const cardContainer = document.querySelector(".card-container");
+const searchInput = document.querySelector("#searchInput");
+const citySelect = document.querySelector("#citySelect");
+
+const displayData = (data, city) => {
+    cardContainer.innerHTML = "";
+    data.forEach(e => {
+        if (e.city === city || city === "todas") {
+            cardContainer.innerHTML += `
+                <div class="card">
+                    <h3><a href="${e.link}" target="_blank">${e.title}</a></h3>
+                    <p>${e.description}</p>
+                </div>
+            `;
+        }
+    });
+};
+
+searchInput.addEventListener("keyup", (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    const selectedCity = citySelect.value;
+    const filteredData = data.filter(item => item.title.toLowerCase().includes(searchTerm) && (item.city === selectedCity || selectedCity === "todas"));
+    displayData(filteredData, selectedCity);
+});
+
+citySelect.addEventListener("change", () => {
+    const selectedCity = citySelect.value;
+    const filteredData = data.filter(item => item.city === selectedCity || selectedCity === "todas");
+    displayData(filteredData, selectedCity);
+});
+
+window.addEventListener("load", () => {
+    // Preencher o select com as opções de cidade
+    const cities = [...new Set(data.map(item => item.city))];
+    cities.forEach(city => {
+        const option = document.createElement('option');
+        option.value = city;
+        option.textContent = city;
+        citySelect.appendChild(option);   
+
+    });
+    // Exibir todos os dados inicialmente
+    displayData(data, "todas");
+});
+searchInput.addEventListener("keyup", (e) => {
+    // ... (código existente)
+    if (filteredData.length === 0) {
+        cardContainer.innerHTML = "<h2>Nenhum resultado encontrado.</h2>";
+    } else {
+        displayData(filteredData, selectedCity);
+    }
+});
+
+citySelect.addEventListener("change", () => {
+    // ... (código existente)
+    if (filteredData.length === 0) {
+        cardContainer.innerHTML = "<h2>Nenhum resultado encontrado.</h2>";
+    } else {
+        displayData(filteredData, selectedCity);
+    }
+});
+</script>
+</body>
+</html>
